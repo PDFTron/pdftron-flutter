@@ -171,6 +171,7 @@ static NSString * const PTSelectAnnotationKey = @"selectAnnotation";
 static NSString * const PTSetFlagsForAnnotationsKey = @"setFlagsForAnnotations";
 static NSString * const PTSetPropertiesForAnnotationKey = @"setPropertiesForAnnotation";
 static NSString * const PTImportAnnotationCommandKey = @"importAnnotationCommand";
+static NSString * const PTAddAnnotationsKey = @"addAnnotations";
 static NSString * const PTImportBookmarksKey = @"importBookmarkJson";
 static NSString * const PTSaveDocumentKey = @"saveDocument";
 static NSString * const PTCommitToolKey = @"commitTool";
@@ -261,8 +262,71 @@ static NSString * const PTPageNumberKey = @"pageNumber";
 static NSString * const PTFieldNameKey = @"fieldName";
 static NSString * const PTFieldValueKey = @"fieldValue";
 
+// Annot
 static NSString * const PTAnnotPageNumberKey = @"pageNumber";
 static NSString * const PTAnnotIdKey = @"id";
+static NSString * const PTAnnotRectKey = @"rect";
+static NSString * const PTAnnotMarkupKey = @"markup";
+static NSString * const PTAnnotBorderStyleObjectKey = @"borderStyleObject";
+static NSString * const PTAnnotRotationKey = @"rotation";
+static NSString * const PTAnnotCustomDataKey = @"customData";
+static NSString * const PTAnnotContentsKey = @"contents";
+static NSString * const PTAnnotColorKey = @"color";
+
+// Markup
+static NSString * const PTMarkupTitleKey = @"title";
+static NSString * const PTMarkupSubjectKey = @"subject";
+static NSString * const PTMarkupOpacityKey = @"opacity";
+static NSString * const PTMarkupBorderEffectKey = @"borderEffect";
+static NSString * const PTMarkupBorderEffectIntensityKey = @"borderEffectIntensity";
+static NSString * const PTMarkupInteriorColorKey = @"interiorColor";
+static NSString * const PTMarkupContentRectKey = @"contentRect";
+static NSString * const PTMarkupPaddingRectKey = @"paddingRect";
+static NSString * const PTMarkupTypeKey = @"markupType";
+
+// Markup types
+static NSString * const PTMarkupTypeFreeTextKey = @"freeText";
+
+// FreeText
+static NSString * const PTFreeTextQuaddingFormatKey = @"quaddingFormat";
+static NSString * const PTFreeTextIntentNameKey = @"intentName";
+static NSString * const PTFreeTextTextColorKey = @"textColor";
+static NSString * const PTFreeTextLineColorKey = @"lineColor";
+static NSString * const PTFreeTextFontSizeKey = @"fontSize";
+
+// Border Style Object
+static NSString * const PTBorderStyleObjectStyleKey = @"style";
+static NSString * const PTBorderStyleObjectHorizontalCornerRadiusKey = @"horizontalCornerRadius";
+static NSString * const PTBorderStyleObjectVerticalCornerRadiusKey = @"verticalCornerRadius";
+static NSString * const PTBorderStyleObjectWidthKey = @"width";
+static NSString * const PTBorderStyleObjectDashPatternKey = @"dashPattern";
+
+// Border Style
+static NSString * const PTBorderStyleSolidKey = @"solid";
+static NSString * const PTBorderStyleDashedKey = @"dashed";
+static NSString * const PTBorderStyleBeveledKey = @"beveled";
+static NSString * const PTBorderStyleInsetKey = @"inset";
+static NSString * const PTBorderStyleUnderlineKey = @"underline";
+
+// Border Effect
+static NSString * const PTBorderEffectNoneKey = @"none";
+static NSString * const PTBorderEffectCloudyKey = @"cloudy";
+
+// Quadding Format
+static NSString * const PTQuaddingFormatLeftJustifiedKey = @"leftJustified";
+static NSString * const PTQuaddingFormatCenteredKey = @"centered";
+static NSString * const PTQuaddingFormatRightJustifiedKey = @"rightJustified";
+ 
+// Intent Name
+static NSString * const PTIntentNameFreeTextKey = @"freeText";
+static NSString * const PTIntentNameFreeTextCalloutKey = @"freeTextCallout";
+static NSString * const PTIntentNameFreeTextTypeWriterKey = @"freeTextTypeWriter";
+
+// Color
+static NSString * const PTColorRedKey = @"red";
+static NSString * const PTColorGreenKey = @"green";
+static NSString * const PTColorBlueKey = @"blue";
+static int const PTNumColorSpace = 3;
 
 static NSString * const PTContentRectAnnotationPropertyKey = @"contentRect";
 static NSString * const PTContentsAnnotationPropertyKey = @"contents";
@@ -364,8 +428,23 @@ typedef enum {
 - (UIView*)view;
 
 + (PTDocumentController *)PT_getSelectedDocumentController:(PTTabbedDocumentViewController *)tabbedDocumentViewController;
+
++ (NSString *)PT_idAsNSString:(id)value;
+
++ (NSNumber *)PT_idAsNSNumber:(id)value;
+
++ (bool)PT_idAsBool:(id)value;
+
++ (NSDictionary *)PT_idAsNSDict:(id)value;
+
++ (NSArray *)PT_idAsArray:(id)value;
+
 + (NSString *)PT_idToJSONString:(id)infoId;
+
 + (id)PT_JSONStringToId:(NSString *)jsonString;
+
++ (bool)dictHasKeys:(NSDictionary *)dict keys:(NSArray *)requiredKeys;
+
 + (Class)toolClassForKey:(NSString *)key;
 
 @end

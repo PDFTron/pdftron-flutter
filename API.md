@@ -65,7 +65,7 @@ void _onDocumentViewCreated(DocumentViewController controller) {
 
 We suggest that you stick with either version for the APIs that are callable in both versions, to avoid unnecessary problems.
 
-There are several custom classes used in these APIs: Annot, AnnotWithRect, Field, Rect, AnnotFlag,AnnotWithFlag and CustomToolbar. These classes are listed [here](./lib/options.dart), and the constants that are used in the examples below are all listed [here](./lib/constants.dart).
+There are several custom classes used in these APIs: `Annot`, `AnnotWithRect`, `Field`, `Rect`, `AnnotFlag`,`AnnotWithFlag` and `CustomToolbar`. These classes are listed [here](./lib/src/options.dart), and the constants that are used in the examples below are all listed [here](./lib/src/constants.dart).
 
 ### Document
 
@@ -180,7 +180,7 @@ Parameters:
 
 Name | Type | Description
 --- | --- | ---
-toolMode | String | One of [Tools](./lib/constants.dart) string constants, representing to tool mode to set
+toolMode | String | One of [Tools](./lib/src/constants.dart) string constants, representing to tool mode to set
 
 Returns a Future.
 
@@ -254,7 +254,7 @@ Future Parameters:
 
 Name | Type | Description
 --- | --- | ---
-cropBox | [Rect](./lib/options.dart) | the crop box information map. It contains information for position (bottom-left: `x1`, `y1`; top-right: `x2`, `y2`) and size (`width`, `height`)
+cropBox | [`Rect`](./lib/src/options.dart) | the crop box information map. It contains information for position (bottom-left: `x1`, `y1`; top-right: `x2`, `y2`) and size (`width`, `height`)
 
 ```dart
 var cropBox = await PdftronFlutter.getPageCropBox(1);
@@ -304,7 +304,7 @@ Parameters:
 
 Name | Type | Description
 --- | --- | ---
-annotationList | List of [Annot](./lib/options.dart) | If not null, export the XFDF string for the valid annotations; Otherwise, export the XFDF string for all annotations in the current document.
+annotationList | List of [`Annot`](./lib/src/options.dart) | If not null, export the XFDF string for the valid annotations; Otherwise, export the XFDF string for all annotations in the current document.
 
 Returns a Future.
 
@@ -344,6 +344,33 @@ Returns a Future.
 PdftronFlutter.flattenAnnotations(true);
 ```
 
+#### addAnnotations
+Add annotations programmatically in the current document. Currently addable annotation type is free-text.
+
+Parameters:
+
+Name | Type | Description
+--- | --- | ---
+annotations | List of [`Annotation`](./lib/src/annotation.dart) | the annotations to be added
+
+Returns a Future.
+
+```dart
+List<Annotation> annotList = [];
+// create a freeText with specified rectangles and page number
+FreeText freeText = new FreeText(new Rect.fromCoordinates(50, 100, 150, 200), 2);
+freeText.id = 'freeTextUUID';
+freeText.rotation = 180;
+freeText.contents = 'sampleText';
+freeText.fontSize = 20;
+freeText.textColor = Colors.red;
+freeText.quaddingFormat = FreeTextQuaddingFormat.rightJustified;
+// border style object with border style, horizontal and vertical corner radius and width
+freeText.borderStyleObject = new BorderStyleObject(AnnotationBorderStyle.underline, 5, 10, 20);
+annotList.
+PdftronFlutter.addAnnotations();
+```
+
 #### deleteAnnotations
 Deletes the specified annotations in the current document.
 
@@ -351,7 +378,7 @@ Parameters:
 
 Name | Type | Description
 --- | --- | ---
-annotations | List of [Annot](./lib/options.dart) | the annotations to be deleted
+annotations | List of [`Annot`](./lib/src/options.dart) | the annotations to be deleted
 
 Returns a Future.
 
@@ -369,7 +396,7 @@ Parameters:
 
 Name | Type | Description
 --- | --- | ---
-annotation | [Annot](./lib/options.dart) | the annotation to be selected
+annotation | [`Annot`](./lib/src/options.dart) | the annotation to be selected
 
 Returns a Future.
 
@@ -384,7 +411,7 @@ Parameters:
 
 Name | Type | Description
 --- | --- | ---
-annotationWithFlagsList | List of [AnnotWithFlags](./lib/options.dart) | a list of annotations with respective flags to be set
+annotationWithFlagsList | List of [`AnnotWithFlags`](./lib/src/options.dart) | a list of annotations with respective flags to be set
 
 Returns a Future.
 
@@ -411,8 +438,8 @@ Sets properties for specified annotation in the current document.
 Params:
 Name | Type | Description
 --- | --- | ---
-annotation | [`Annot`](./lib/options.dart) | the annotation to be modified
-property | [`AnnotProperty`](./lib/options.dart) | the properties to be set for the target annotation
+annotation | [`Annot`](./lib/src/options.dart) | the annotation to be modified
+property | [`AnnotProperty`](./lib/src/options.dart) | the properties to be set for the target annotation
 
 For settable properties:
 
@@ -442,7 +469,7 @@ Parameters:
 Name | Type | Description
 --- | ---| ---
 fieldNames | List of String | list of field names for which the flag should be set
-flag | int | the flag to be set, one of the constants from [FieldFlags](./lib/config.dart)
+flag | int | the flag to be set, one of the constants from [`FieldFlags`](./lib/src/config.dart)
 flagValue | bool | value to set for flag
 
 Returns a Future.
@@ -458,7 +485,7 @@ Parameters:
 
 Name | Type | Description
 --- | ---| ---
-fields | List of [Field](./lib/options.dart) | A list of fields with name and the value that you would like to set to, could be in type number, bool or string
+fields | List of [`Field`](./lib/src/options.dart) | A list of fields with name and the value that you would like to set to, could be in type number, bool or string
 
 Returns a Future.
 
@@ -610,7 +637,7 @@ Event Parameters:
 Name | Type | Description
 --- | --- | ---
 action | String | the action that occurred (add, delete, modify)
-annotations | List of [Annot](./lib/options.dart) | the annotations that have been changed
+annotations | List of [`Annot`](./lib/src/options.dart) | the annotations that have been changed
 
 ```dart
 var annotChangedCancel = startAnnotationChangedListener((action, annotations) 
@@ -630,7 +657,7 @@ Event Parameters:
 
 Name | Type | Description
 --- | --- | ---
-annotationWithRects | List of [AnnotWithRect](./lib/options.dart) | The list of annotations with their respective rects
+annotationWithRects | List of [`AnnotWithRect`](./lib/src/options.dart) | The list of annotations with their respective rects
 
 ```dart
 var annotsSelectedCancel = startAnnotationsSelectedListener((annotationWithRects) 
@@ -651,7 +678,7 @@ Event Parameters:
 
 Name | Type | Description
 --- | --- | ---
-fields | List of [Field](./lib/options.dart) | the fields that are changed
+fields | List of [`Field`](./lib/src/options.dart) | the fields that are changed
 
 ```dart
 var fieldChangedCancel = startFormFieldValueChangedListener((fields)
@@ -672,8 +699,8 @@ Event Parameters:
 
 Name | Type | Description
 --- | --- | ---
-annotationMenuItem | one of the [AnnotationMenuItems](./lib/options.dart) constants | The menu item that has been pressed
-annotations | List of [Annot](./lib/options.dart) | The annotations associated with the menu
+annotationMenuItem | one of the [AnnotationMenuItems](./lib/src/options.dart) constants | The menu item that has been pressed
+annotations | List of [Annot](./lib/src/options.dart) | The annotations associated with the menu
 
 ```dart
 var annotationMenuPressedCancel = startAnnotationMenuPressedListener((annotationMenuItem, annotations) 
@@ -695,7 +722,7 @@ Event Parameters:
 
 Name | Type | Description
 --- | --- | ---
-longPressMenuItem | one of the [LongPressMenuItems](./lib/constants.dart) constants | The menu item that has been pressed
+longPressMenuItem | one of the [LongPressMenuItems](./lib/src/constants.dart) constants | The menu item that has been pressed
 longPressText | string | The selected text if pressed on text, empty otherwise
 
 ```dart
@@ -759,7 +786,7 @@ var zoomChangedCancel = startZoomChangedListener((zoom)
 
 
 ## Viewer Configurations
-This section is the configuration part of the [`openDocument`](#openDocument) function. You could also refer to [here](./lib/config.dart) for all mutable properties.
+This section is the configuration part of the [openDocument](#openDocument) function. You could also refer to [here](./lib/src/config.dart) for all mutable properties.
 
 ### Document
 
@@ -800,7 +827,7 @@ Defines the file extension for the base64 string in document, if [isBase64String
 ### UI Customization
 
 #### disabledElements
-array of [Buttons](./lib/constants.dart) constants, defaults to none.
+array of [Buttons](./lib/src/constants.dart) constants, defaults to none.
 
 Defines buttons to be disabled for the viewer.
 
@@ -810,7 +837,7 @@ config.disabledElements = disabledElements;
 ```
 
 #### disabledTools
-array of [Tools](./lib/constants.dart) constants, defaults to none.
+array of [Tools](./lib/src/constants.dart) constants, defaults to none.
 
 Defines tools to be disabled for the viewer.
 
@@ -831,7 +858,7 @@ config.showLeadingNavButton = true;
 ### Toolbar Customization
 
 #### annotationToolbars
-array of [CustomToolbar](./lib/options.dart) objects or [DefaultToolbars](./lib/constants.dart) constants.
+array of [`CustomToolbar`](./lib/src/options.dart) objects or [`DefaultToolbars`](./lib/src/constants.dart) constants.
 
 Defines custom toolbars. If passed in, the set of default toolbars will no longer appear. It is possible to mix and match with default toolbars. See example below:
 
@@ -842,7 +869,7 @@ var annotationToolbars = [DefaultToolbars.annotate, customToolbar];
 ```
 
 #### hideDefaultAnnotationToolbars
-array of [DefaultToolbars](./lib/constants.dart) constants, defaults to none.
+array of [`DefaultToolbars`](./lib/src/constants.dart) constants, defaults to none.
 
 Defines which default annotation toolbars should be hidden. Note that this should be used when [`annotationToolbars`](#annotationToolbars) is not defined.
 
@@ -891,7 +918,7 @@ config.hideBottomToolbar = true;
 ### Layout
 
 #### fitMode
-one of the [FitModes](./lib/constants.dart) constants, default value is 'FitWidth'.
+one of the [FitModes](./lib/src/constants.dart) constants, default value is 'FitWidth'.
 
 Defines the fit mode (default zoom level) of the viewer.
 
@@ -900,7 +927,7 @@ config.fitMode = FitModes.fitHeight;
 ```
 
 #### layoutMode
-one of the [LayoutModes](./lib/constants.dart) constants, default value is 'Continuous'.
+one of the [LayoutModes](./lib/src/constants.dart) constants, default value is 'Continuous'.
 
 Defines the layout mode of the viewer.
 
@@ -980,7 +1007,7 @@ config.selectAnnotationAfterCreation = true;
 ### Annotation Menu
 
 #### hideAnnotationMenu
-array of [Tools](./lib/constants.dart) constants, defaults to none
+array of [Tools](./lib/src/constants.dart) constants, defaults to none
 
 Defines annotation types that will not show the default annotation menu.
 
@@ -989,7 +1016,7 @@ config.hideAnnotationMenu = [Tools.annotationCreateArrow, Tools.annotationEraser
 ```
 
 #### annotationMenuItems
-array of [AnnotationMenuItems](./lib/constants.dart) constants, default contains all items
+array of [AnnotationMenuItems](./lib/src/constants.dart) constants, default contains all items
 
 Defines the menu items that can show when an annotation is selected. 
 
@@ -998,7 +1025,7 @@ config.annotationMenuItems = [AnnotationMenuItems.search, AnnotationMenuItems.sh
 ```
 
 #### overrideAnnotationMenuBehavior
-array of [AnnotationMenuItems](./lib/constants.dart) constants, defaults to none
+array of [AnnotationMenuItems](./lib/src/constants.dart) constants, defaults to none
 
 Defines the menu items that will skip default behavior when pressed. They will still be displayed in the annotation menu, and the event handler [`startAnnotationMenuPressedListener`](#startAnnotationMenuPressedListener) will be called where custom behavior can be implemented.
 
@@ -1018,7 +1045,7 @@ config.longPressMenuEnabled = false;
 ```
 
 #### longPressMenuItems
-array of [LongPressMenuItems](./lib/constants.dart) constants, optional, default contains all the items
+array of [LongPressMenuItems](./lib/src/constants.dart) constants, optional, default contains all the items
 
 Defines menu items that can show when long press on text or blank space.
 
@@ -1027,7 +1054,7 @@ config.longPressMenuItems = [LongPressMenuItems.search, LongPressMenuItems.share
 ```
 
 #### overrideLongPressMenuBehavior
-array of [LongPressMenuItems](./lib/constants.dart) constants, optional, defaults to none
+array of [LongPressMenuItems](./lib/src/constants.dart) constants, optional, defaults to none
 
 Defines the menu items on long press that will skip default behavior when pressed. They will still be displayed in the long press menu, and the event handler [`startLongPressMenuPressedListener`](#startLongPressMenuPressedListener) will be called where custom behavior can be implemented.
 
@@ -1038,7 +1065,7 @@ config.overrideLongPressMenuBehavior = [LongPressMenuItems.copy];
 ### Custom Behavior
 
 #### overrideBehavior
-array of [Behaviors](./lib/constants.dart) constants, defaults to false.
+array of [Behaviors](./lib/src/constants.dart) constants, defaults to false.
 
 Defines actions that should skip default behavior, such as external link click. The event handler [startBehaviorActivatedListener](#startBehaviorActivatedListener) will be called when the behavior is activated, where custom behavior can be implemented.
 
@@ -1098,7 +1125,7 @@ config.thumbnailViewEditingEnabled = false;
 ```
 
 #### hideThumbnailFilterModes
-array of [ThumbnailFilterModes](./lib/constants.dart) constants, defaults to none.
+array of [ThumbnailFilterModes](./lib/src/constants.dart) constants, defaults to none.
 
 Defines filter Modes that should be hidden in the thumbnails browser.
 

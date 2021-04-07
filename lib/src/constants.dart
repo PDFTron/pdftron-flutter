@@ -1,5 +1,3 @@
-part of pdftron;
-
 // Functions define the names of the functions
 class Functions {
   static const getPlatformVersion = "getPlatformVersion";
@@ -12,6 +10,7 @@ class Functions {
   static const deleteAnnotations = "deleteAnnotations";
   static const selectAnnotation = "selectAnnotation";
   static const setFlagsForAnnotations = "setFlagsForAnnotations";
+  static const addAnnotations = "addAnnotations";
   static const setPropertiesForAnnotation = "setPropertiesForAnnotation";
   static const importAnnotationCommand = "importAnnotationCommand";
   static const importBookmarkJson = "importBookmarkJson";
@@ -271,4 +270,33 @@ class ToolbarIcons {
   static const pens = "PDFTron_Pens";
   static const redaction = "PDFTron_Redact";
   static const favorite = "PDFTron_Favorite";
+}
+
+// AnnotationBorderStyle defines border styles for annotations
+class AnnotationBorderStyle {
+  static const solid = "solid";
+  static const dashed = "dashed";
+  static const beveled = "beveled";
+  static const inset = "inset";
+  static const underline = "underline";
+}
+
+// AnnotationBorderEffect defines border effects for markup annotations
+class AnnotationBorderEffect {
+  static const none = "none";
+  static const cloudy = "cloudy";
+}
+
+// FreeTextQuaddingFormat defines the quadding format for FreeText annotations
+class FreeTextQuaddingFormat {
+  static const leftJustified = "leftJustified";
+  static const centered = "centered";
+  static const rightJustified = "rightJustified";
+}
+
+// FreeTextIntentName defines the intentions for FreeText annotations
+class FreeTextIntentName {
+  static const freeText = "freeText";
+  static const freeTextCallout = "freeTextCallout";
+  static const freeTextTypeWriter = "freeTextTypeWriter";
 }

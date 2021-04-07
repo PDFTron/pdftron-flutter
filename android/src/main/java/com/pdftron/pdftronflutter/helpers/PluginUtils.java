@@ -140,6 +140,61 @@ public class PluginUtils {
 
     public static final String KEY_ANNOTATION_ID = "id";
 
+    public static final String KEY_ANNOTATION_RECT = "rect";
+    public static final String KEY_ANNOTATION_PAGE_NUMBER = "pageNumber";
+    public static final String KEY_ANNOTATION_BORDER_STYLE_OBJECT = "borderStyleObject";
+    public static final String KEY_ANNOTATION_ROTATION = "rotation";
+    public static final String KEY_ANNOTATION_CUSTOM_DATA = "customData";
+    public static final String KEY_ANNOTATION_CONTENTS = "contents";
+    public static final String KEY_ANNOTATION_COLOR = "color";
+    public static final String KEY_ANNOTATION_MARKUP = "markup";
+
+    public static final String KEY_BORDER_STYLE = "style";
+    public static final String KEY_BORDER_STYLE_OBJECT_HORIZONTAL_CORNER_RADIUS = "horizontalCornerRadius";
+    public static final String KEY_BORDER_STYLE_OBJECT_VERTICAL_CORNER_RADIUS = "verticalCornerRadius";
+    public static final String KEY_BORDER_STYLE_OBJECT_WIDTH = "width";
+    public static final String KEY_BORDER_STYLE_OBJECT_DASH_PATTERN = "dashPattern";
+
+    public static final String KEY_BORDER_STYLE_SOLID = "solid";
+    public static final String KEY_BORDER_STYLE_DASHED = "dashed";
+    public static final String KEY_BORDER_STYLE_BEVELED = "beveled";
+    public static final String KEY_BORDER_STYLE_INSET = "inset";
+    public static final String KEY_BORDER_STYLE_UNDERLINE = "underline";
+
+    public static final String KEY_MARKUP_TITLE = "title";
+    public static final String KEY_MARKUP_SUBJECT = "subject";
+    public static final String KEY_MARKUP_OPACITY = "opacity";
+    public static final String KEY_MARKUP_BORDER_EFFECT = "borderEffect";
+    public static final String KEY_MARKUP_BORDER_EFFECT_INTENSITY = "borderEffectIntensity";
+    public static final String KEY_MARKUP_INTERIOR_COLOR = "interiorColor";
+    public static final String KEY_MARKUP_CONTENT_RECT = "contentRect";
+    public static final String KEY_MARKUP_PADDING_RECT = "paddingRect";
+    public static final String KEY_MARKUP_TYPE = "markupType";
+
+    public static final String KEY_MARKUP_TYPE_FREE_TEXT = "freeText";
+
+    public static final String KEY_BORDER_EFFECT_NONE = "none";
+    public static final String KEY_BORDER_EFFECT_CLOUDY = "cloudy";
+
+    public static final String KEY_FREE_TEXT_ANNOTATION_QUADDING_FORMAT = "quaddingFormat";
+    public static final String KEY_FREE_TEXT_ANNOTATION_INTENT_NAME = "intentName";
+    public static final String KEY_FREE_TEXT_ANNOTATION_TEXT_COLOR = "textColor";
+    public static final String KEY_FREE_TEXT_ANNOTATION_LINE_COLOR = "lineColor";
+    public static final String KEY_FREE_TEXT_ANNOTATION_FONT_SIZE = "fontSize";
+
+    public static final String KEY_QUADDING_FORMAT_LEFT_JUSTIFIED = "leftJustified";
+    public static final String KEY_QUADDING_FORMAT_CENTERED = "centered";
+    public static final String KEY_QUADDING_FORMAT_RIGHT_JUSTIFIED = "rightJustified";
+
+    public static final String KEY_INTENT_NAME_FREE_TEXT = "freeText";
+    public static final String KEY_INTENT_NAME_FREE_TEXT_CALLOUT = "freeTextCallout";
+    public static final String KEY_INTENT_NAME_FREE_TEXT_TYPE_WRITER = "freeTextTypeWriter";
+
+    public static final String KEY_COLOR_RED = "red";
+    public static final String KEY_COLOR_GREEN = "green";
+    public static final String KEY_COLOR_BLUE = "blue";
+    public static final int NUMBER_COLOR_SPACE = 3;
+
     public static final String KEY_ACTION_ADD = "add";
     public static final String KEY_ACTION_MODIFY = "modify";
     public static final String KEY_ACTION_DELETE = "delete";
@@ -195,6 +250,7 @@ public class PluginUtils {
     public static final String FUNCTION_DELETE_ANNOTATIONS = "deleteAnnotations";
     public static final String FUNCTION_SELECT_ANNOTATION = "selectAnnotation";
     public static final String FUNCTION_SET_FLAGS_FOR_ANNOTATIONS = "setFlagsForAnnotations";
+    public static final String FUNCTION_ADD_ANNOTATIONS = "addAnnotations";
     public static final String FUNCTION_SET_PROPERTIES_FOR_ANNOTATION = "setPropertiesForAnnotation";
     public static final String FUNCTION_SET_LEADING_NAV_BUTTON_ICON = "setLeadingNavButtonIcon";
     public static final String FUNCTION_CLOSE_ALL_TABS = "closeAllTabs";
@@ -655,27 +711,27 @@ public class PluginUtils {
                 }
                 if (!configJson.isNull(KEY_CONFIG_LONG_PRESS_MENU_ITEMS)) {
                     JSONArray array = configJson.getJSONArray(KEY_CONFIG_LONG_PRESS_MENU_ITEMS);
-                    ArrayList<String> longPressMenuItems = convertJSONArrayToArrayList(array);
+                    ArrayList<String> longPressMenuItems = JSONUtils.convertJSONArrayToArrayList(array);
                     configInfo.setLongPressMenuItems(longPressMenuItems);
                 }
                 if (!configJson.isNull(KEY_CONFIG_OVERRIDE_LONG_PRESS_MENU_BEHAVIOR)) {
                     JSONArray array = configJson.getJSONArray(KEY_CONFIG_OVERRIDE_LONG_PRESS_MENU_BEHAVIOR);
-                    ArrayList<String> longPressMenuOverrideItems = convertJSONArrayToArrayList(array);
+                    ArrayList<String> longPressMenuOverrideItems = JSONUtils.convertJSONArrayToArrayList(array);
                     configInfo.setLongPressMenuOverrideItems(longPressMenuOverrideItems);
                 }
                 if (!configJson.isNull(KEY_CONFIG_HIDE_ANNOTATION_MENU)) {
                     JSONArray array = configJson.getJSONArray(KEY_CONFIG_HIDE_ANNOTATION_MENU);
-                    ArrayList<String> hideAnnotationMenuTools = convertJSONArrayToArrayList(array);
+                    ArrayList<String> hideAnnotationMenuTools = JSONUtils.convertJSONArrayToArrayList(array);
                     configInfo.setHideAnnotationMenuTools(hideAnnotationMenuTools);
                 }
                 if (!configJson.isNull(KEY_CONFIG_ANNOTATION_MENU_ITEMS)) {
                     JSONArray array = configJson.getJSONArray(KEY_CONFIG_ANNOTATION_MENU_ITEMS);
-                    ArrayList<String> annotationMenuItems = convertJSONArrayToArrayList(array);
+                    ArrayList<String> annotationMenuItems = JSONUtils.convertJSONArrayToArrayList(array);
                     configInfo.setAnnotationMenuItems(annotationMenuItems);
                 }
                 if (!configJson.isNull(KEY_CONFIG_OVERRIDE_ANNOTATION_MENU_BEHAVIOR)) {
                     JSONArray array = configJson.getJSONArray(KEY_CONFIG_OVERRIDE_ANNOTATION_MENU_BEHAVIOR);
-                    ArrayList<String> annotationMenuOverrideItems = convertJSONArrayToArrayList(array);
+                    ArrayList<String> annotationMenuOverrideItems = JSONUtils.convertJSONArrayToArrayList(array);
                     configInfo.setAnnotationMenuOverrideItems(annotationMenuOverrideItems);
                 }
                 if (!configJson.isNull(KEY_CONFIG_AUTO_SAVE_ENABLED)) {
@@ -770,7 +826,7 @@ public class PluginUtils {
                 }
                 if (!configJson.isNull(KEY_CONFIG_OVERRIDE_BEHAVIOR)) {
                     JSONArray array = configJson.getJSONArray(KEY_CONFIG_OVERRIDE_BEHAVIOR);
-                    ArrayList<String> actionOverrideItems = convertJSONArrayToArrayList(array);
+                    ArrayList<String> actionOverrideItems = JSONUtils.convertJSONArrayToArrayList(array);
                     configInfo.setActionOverrideItems(actionOverrideItems);
                 }
                 if (!configJson.isNull(KEY_CONFIG_TAB_TITLE)) {
@@ -836,7 +892,7 @@ public class PluginUtils {
                     toolbarIcon = object.getString(TOOLBAR_KEY_ICON);
                 }
                 if (!object.isNull(TOOLBAR_KEY_ITEMS)) {
-                    toolbarItems = getJSONArrayFromJSONObject(object, TOOLBAR_KEY_ITEMS);
+                    toolbarItems = JSONUtils.getJSONArrayFromJSONObject(object, TOOLBAR_KEY_ITEMS);
                 }
 
                 if (!Utils.isNullOrEmpty(toolbarId) && !Utils.isNullOrEmpty(toolbarName)
@@ -1601,6 +1657,20 @@ public class PluginUtils {
                 }
                 break;
             }
+            case FUNCTION_ADD_ANNOTATIONS: {
+                checkFunctionPrecondition(component);
+                String annotationList = call.argument(KEY_ANNOTATION_LIST);
+                try {
+                    addAnnotations(annotationList, result, component);
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                    result.error(Integer.toString(ex.hashCode()), "JSONException Error: " + ex, null);
+                } catch (PDFNetException ex) {
+                    ex.printStackTrace();
+                    result.error(Long.toString(ex.getErrorCode()), "PDFTronException Error: " + ex, null);
+                }
+                break;
+            }
             case FUNCTION_SET_PROPERTIES_FOR_ANNOTATION: {
                 checkFunctionPrecondition(component);
                 String annotation = call.argument(KEY_ANNOTATION);
@@ -1615,7 +1685,6 @@ public class PluginUtils {
                     result.error(Long.toString(ex.getErrorCode()), "PDFTronException Error: " + ex, null);
                 }
                 break;
-
             }
             case FUNCTION_IMPORT_ANNOTATION_COMMAND: {
                 checkFunctionPrecondition(component);
@@ -1950,7 +2019,7 @@ public class PluginUtils {
             for (int i = 0; i < annotationWithFlagsArray.length(); i++) {
                 JSONObject currentAnnotationWithFlags = annotationWithFlagsArray.getJSONObject(i);
 
-                JSONObject currentAnnotation = getJSONObjectFromJSONObject(currentAnnotationWithFlags, KEY_ANNOTATION);
+                JSONObject currentAnnotation = JSONUtils.getJSONObjectFromJSONObject(currentAnnotationWithFlags, KEY_ANNOTATION);
                 String currentAnnotationId = currentAnnotation.getString(KEY_ANNOTATION_ID);
                 int currentAnnotationPageNumber = currentAnnotation.getInt(KEY_PAGE_NUMBER);
 
@@ -1961,7 +2030,7 @@ public class PluginUtils {
                         continue;
                     }
 
-                    JSONArray currentFlagArray = getJSONArrayFromJSONObject(currentAnnotationWithFlags, KEY_ANNOTATION_FLAG_LISTS);
+                    JSONArray currentFlagArray = JSONUtils.getJSONArrayFromJSONObject(currentAnnotationWithFlags, KEY_ANNOTATION_FLAG_LISTS);
 
                     // for each flag
                     for (int j = 0; j < currentFlagArray.length(); j++) {
@@ -2027,87 +2096,134 @@ public class PluginUtils {
         }
     }
 
-    private static void setPropertiesForAnnotation(String annotation, String properties, MethodChannel.Result result, ViewerComponent component) throws PDFNetException, JSONException {
+    private static void addAnnotations(String annotationList, MethodChannel.Result result, ViewerComponent component) throws PDFNetException, JSONException {
         PDFViewCtrl pdfViewCtrl = component.getPdfViewCtrl();
-        ToolManager toolManager = component.getToolManager();
+        PDFDoc pdfDoc = component.getPdfDoc();
 
-        if (null == pdfViewCtrl || null == toolManager) {
+        if (null == pdfViewCtrl || null == pdfDoc) {
             result.error("InvalidState", "Activity not attached", null);
             return;
         }
 
-        JSONObject annotationJson = new JSONObject(annotation);
+        ToolManager toolManager = (ToolManager) pdfViewCtrl.getToolManager();
 
-        String annotationId = annotationJson.getString(KEY_ANNOTATION_ID);
-        int annotationPageNumber = annotationJson.getInt(KEY_PAGE_NUMBER);
+        JSONArray annotationJsonArray = new JSONArray(annotationList);
 
-        JSONObject propertiesJson = new JSONObject(properties);
+        HashMap<Annot, Integer> validAnnotMap = new HashMap<>();
+
+        for (int i = 0; i < annotationJsonArray.length(); i++) {
+            JSONObject currAnnotJSONObject = annotationJsonArray.getJSONObject(i);
+
+            Annot annot = JSONUtils.getAnnotationFromJSONObject(currAnnotJSONObject, pdfDoc);
+
+            if (annot != null && annot.isValid()) {
+                validAnnotMap.put(annot, annot.getPage().getIndex());
+            }
+        }
+
+        if (validAnnotMap.isEmpty()) {
+            return;
+        }
 
         boolean shouldUnlock = false;
         try {
             pdfViewCtrl.docLock(true);
             shouldUnlock = true;
 
-            Annot annot = ViewerUtils.getAnnotById(pdfViewCtrl, annotationId, annotationPageNumber);
-            if (annot != null && annot.isValid()) {
+            for (Annot annot : validAnnotMap.keySet()) {
 
-                HashMap<Annot, Integer> map = new HashMap<>(1);
-                map.put(annot, annotationPageNumber);
-                toolManager.raiseAnnotationsPreModifyEvent(map);
-
-
-                if (!propertiesJson.isNull(KEY_CONTENTS)) {
-                    Object contents = propertiesJson.get(KEY_CONTENTS);
-                    if (contents instanceof String) {
-                        annot.setContents((String) contents);
-                    }
-                }
-
-                if (!propertiesJson.isNull(KEY_RECT)) {
-                    Object object = propertiesJson.get(KEY_RECT);
-                    com.pdftron.pdf.Rect pdfRect = getRectFromObject(object);
-                    if (pdfRect != null) {
-                        annot.setRect(pdfRect);
-                    }
-                }
-
-                if (annot.isMarkup()) {
-                    Markup markupAnnot = new Markup(annot);
-
-                    if (!propertiesJson.isNull(KEY_SUBJECT)) {
-                        Object subject = propertiesJson.get(KEY_SUBJECT);
-                        if (subject instanceof String) {
-                            markupAnnot.setSubject((String) subject);
-                        }
-                    }
-
-                    if (!propertiesJson.isNull(KEY_TITLE)) {
-                        Object title = propertiesJson.get(KEY_TITLE);
-                        if (title instanceof String) {
-                            markupAnnot.setTitle((String) title);
-                        }
-                    }
-
-                    if (!propertiesJson.isNull(KEY_CONTENT_RECT)) {
-                        Object object = propertiesJson.get(KEY_CONTENT_RECT);
-                        com.pdftron.pdf.Rect pdfRect = getRectFromObject(object);
-                        if (pdfRect != null) {
-                            markupAnnot.setContentRect(pdfRect);
-                        }
-                    }
-                }
-
-                pdfViewCtrl.update(annot, annotationPageNumber);
-
-                toolManager.raiseAnnotationsModifiedEvent(map, Tool.getAnnotationModificationBundle(null));
+                annot.getPage().annotPushBack(annot);
+                pdfViewCtrl.update(annot, annot.getPage().getIndex());
             }
+
+            toolManager.raiseAnnotationsAddedEvent(validAnnotMap);
         } finally {
             if (shouldUnlock) {
                 pdfViewCtrl.docUnlock();
             }
         }
-
     }
+
+            private static void setPropertiesForAnnotation(String annotation, String properties, MethodChannel.Result result, ViewerComponent component) throws PDFNetException, JSONException {
+                PDFViewCtrl pdfViewCtrl = component.getPdfViewCtrl();
+                ToolManager toolManager = component.getToolManager();
+
+                if (null == pdfViewCtrl || null == toolManager) {
+                    result.error("InvalidState", "Activity not attached", null);
+                    return;
+                }
+
+                JSONObject annotationJson = new JSONObject(annotation);
+
+                String annotationId = annotationJson.getString(KEY_ANNOTATION_ID);
+                int annotationPageNumber = annotationJson.getInt(KEY_PAGE_NUMBER);
+
+                JSONObject propertiesJson = new JSONObject(properties);
+
+                boolean shouldUnlock = false;
+                try {
+                    pdfViewCtrl.docLock(true);
+                    shouldUnlock = true;
+
+                    Annot annot = ViewerUtils.getAnnotById(pdfViewCtrl, annotationId, annotationPageNumber);
+                    if (annot != null && annot.isValid()) {
+
+                        HashMap<Annot, Integer> map = new HashMap<>(1);
+                        map.put(annot, annotationPageNumber);
+                        toolManager.raiseAnnotationsPreModifyEvent(map);
+
+
+                        if (!propertiesJson.isNull(KEY_CONTENTS)) {
+                            Object contents = propertiesJson.get(KEY_CONTENTS);
+                            if (contents instanceof String) {
+                                annot.setContents((String) contents);
+                            }
+                        }
+
+                        if (!propertiesJson.isNull(KEY_RECT)) {
+                            JSONObject object = propertiesJson.getJSONObject(KEY_RECT);
+                            com.pdftron.pdf.Rect pdfRect = JSONUtils.getRectFromJSONObject(object);
+                            if (pdfRect != null) {
+                                annot.setRect(pdfRect);
+                            }
+                        }
+
+                        if (annot.isMarkup()) {
+                            Markup markupAnnot = new Markup(annot);
+
+                            if (!propertiesJson.isNull(KEY_SUBJECT)) {
+                                Object subject = propertiesJson.get(KEY_SUBJECT);
+                                if (subject instanceof String) {
+                                    markupAnnot.setSubject((String) subject);
+                                }
+                            }
+
+                            if (!propertiesJson.isNull(KEY_TITLE)) {
+                                Object title = propertiesJson.get(KEY_TITLE);
+                                if (title instanceof String) {
+                                    markupAnnot.setTitle((String) title);
+                                }
+                            }
+
+                            if (!propertiesJson.isNull(KEY_CONTENT_RECT)) {
+                                JSONObject object = propertiesJson.getJSONObject(KEY_CONTENT_RECT);
+                                com.pdftron.pdf.Rect pdfRect = JSONUtils.getRectFromJSONObject(object);
+                                if (pdfRect != null) {
+                                    markupAnnot.setContentRect(pdfRect);
+                                }
+                            }
+                        }
+
+                        pdfViewCtrl.update(annot, annotationPageNumber);
+
+                        toolManager.raiseAnnotationsModifiedEvent(map, Tool.getAnnotationModificationBundle(null));
+                    }
+                } finally {
+                    if (shouldUnlock) {
+                        pdfViewCtrl.docUnlock();
+                    }
+                }
+            }
 
     private static void importAnnotationCommand(String xfdfCommand, MethodChannel.Result result, ViewerComponent component) throws PDFNetException {
         PDFViewCtrl pdfViewCtrl = component.getPdfViewCtrl();
@@ -2633,39 +2749,5 @@ public class PluginUtils {
                 removeList.add(item);
             }
         }
-    }
-
-    private static JSONArray getJSONArrayFromJSONObject(JSONObject jsonObject, String key) throws JSONException {
-        String jsonArrayString = jsonObject.getString(key);
-        return new JSONArray(jsonArrayString);
-    }
-
-    private static JSONObject getJSONObjectFromJSONObject(JSONObject jsonObject, String key) throws JSONException {
-        String jsonObjectString = jsonObject.getString(key);
-        return new JSONObject(jsonObjectString);
-    }
-
-    private static ArrayList<String> convertJSONArrayToArrayList(JSONArray jsonArray) throws JSONException {
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            arrayList.add(jsonArray.getString(i));
-        }
-        return arrayList;
-    }
-
-    private static com.pdftron.pdf.Rect getRectFromObject(Object object) throws JSONException, PDFNetException {
-        if (object instanceof String) {
-            JSONObject rectJson = new JSONObject((String) object);
-            if (!rectJson.isNull(KEY_X1) && !rectJson.isNull(KEY_Y1) && !rectJson.isNull(KEY_X2) && !rectJson.isNull(KEY_Y2)) {
-
-                double rectX1 = rectJson.getDouble(KEY_X1);
-                double rectY1 = rectJson.getDouble(KEY_Y1);
-                double rectX2 = rectJson.getDouble(KEY_X2);
-                double rectY2 = rectJson.getDouble(KEY_Y2);
-
-                return new com.pdftron.pdf.Rect(rectX1, rectY1, rectX2, rectY2);
-            }
-        }
-        return null;
     }
 }

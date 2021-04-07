@@ -2,6 +2,7 @@
 #import "PTFlutterDocumentController.h"
 #import "DocumentViewFactory.h"
 #import "PTNavigationController.h"
+#import "PTAnnotationUtils.h"
 
 @interface PdftronFlutterPlugin () <PTTabbedDocumentViewControllerDelegate, PTDocumentControllerDelegate>
 
@@ -560,7 +561,7 @@
 - (void)topLeftButtonPressed:(UIBarButtonItem *)barButtonItem
 {
     if (!self.isWidgetView) {
-        [self.tabbedDocumentViewController.navigationController dismissViewControllerAnimated:YES completion:nil];
+//        [self.tabbedDocumentViewController.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
     
     [self documentController:[self getDocumentController] leadingNavButtonClicked:nil];
@@ -1093,6 +1094,9 @@
     } else if ([call.method isEqualToString:PTImportAnnotationCommandKey]) {
         NSString *xfdfCommand = [PdftronFlutterPlugin PT_idAsNSString:call.arguments[PTXfdfCommandArgumentKey]];
         [self importAnnotationCommand:xfdfCommand resultToken:result];
+    } else if ([call.method isEqualToString:PTAddAnnotationsKey]) {
+        NSString *annotations = [PdftronFlutterPlugin PT_idAsNSString:call.arguments[PTAnnotationListKey]];
+        [self addAnnotations:annotations resultToken:result];
     } else if ([call.method isEqualToString:PTImportBookmarksKey]) {
         NSString *bookmarkJson = [PdftronFlutterPlugin PT_idAsNSString:call.arguments[PTBookmarkJsonArgumentKey]];
         [self importBookmarks:bookmarkJson resultToken:result];
@@ -1790,6 +1794,52 @@
     }
 }
 
+- (void)addAnnotations:(NSString *)annotations resultToken:(FlutterResult)flutterResult
+{
+    PTDocumentController *documentController = [self getDocumentController];
+    if(documentController.document == Nil)
+    {
+        // something is wrong, no document.
+        NSLog(@"Error: The document view controller has no document.");
+        flutterResult([FlutterError errorWithCode:@"add_annotations" message:@"Failed to add annotations" details:@"Error: The document view controller has no document."]);
+        return;
+    }
+    
+    NSArray *annotationJSONArray = [PdftronFlutterPlugin PT_idAsArray:[PdftronFlutterPlugin PT_JSONStringToId:annotations]];
+    
+    NSMutableArray <PTAnnot *>* validAnnotations = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary* annotationDict in annotationJSONArray) {
+        PTAnnot* annot = [PTAnnotationUtils getAnnotFromDict:annotationDict document:documentController.document];
+        
+        if (annot && [annot IsValid]) {
+            [validAnnotations addObject:annot];
+        }
+    }
+    
+    NSError* error;
+    
+    [documentController.pdfViewCtrl DocLock:YES withBlock:^(PTPDFDoc * _Nullable doc) {
+        for (PTAnnot *annot in validAnnotations) {
+            PTPage *page = [annot GetPage];
+            if (page && [page IsValid]) {
+                int pageNumber = [page GetIndex];
+                
+                [page AnnotPushBack:annot];
+                [documentController.toolManager annotationAdded:annot onPageNumber:pageNumber];
+            }
+        }
+        [documentController.pdfViewCtrl Update:YES];
+    } error:&error];
+        
+    if (error) {
+        NSLog(@"Error: Failed to add annotations to doc. %@", error.localizedDescription);
+            
+        flutterResult([FlutterError errorWithCode:@"add_annotations" message:@"Failed to add annotations" details:@"Error: Failed to add annotations from doc."]);
+        return;
+    }
+}
+
 - (void)importBookmarks:(NSString *)bookmarkJson resultToken:(FlutterResult)flutterResult
 {
     PTDocumentController *documentController = [self getDocumentController];
@@ -2239,6 +2289,17 @@
 + (id)PT_JSONStringToId:(NSString *)jsonString {
     NSData *annotListData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     return [NSJSONSerialization JSONObjectWithData:annotListData options:kNilOptions error:nil];
+}
+
++ (bool)dictHasKeys:(NSDictionary *)dict keys:(NSArray *)requiredKeys
+{
+    NSArray* dictKeys = [dict allKeys];
+    for (NSString * requiredKey in requiredKeys) {
+        if (![dictKeys containsObject:requiredKey]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 + (Class)toolClassForKey:(NSString *)key
