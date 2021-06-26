@@ -1,13 +1,13 @@
 part of pdftron;
 
+/// The annotation object.
 class Annot {
-  /*  
-      Description: The annotation associated with its rectangle
-      Note: an annotation has its id in xfdf as name;
-            page numbers are 1-indexed here, but 0-indexed in xfdf strings
-  */
+  /// An annotation has its id in XFDF as name.
   String? id;
+
+  /// Page numbers are 1-indexed here, but 0-indexed in XFDF strings.
   int? pageNumber;
+
   Annot(this.id, this.pageNumber);
 
   factory Annot.fromJson(dynamic json) {
@@ -19,10 +19,8 @@ class Annot {
       };
 }
 
+/// The annotation associated with its rectangle.
 class AnnotWithRect {
-  /*  
-      Description: The annotation associated with its rectangle
-  */
   String? id;
   int? pageNumber;
   Rect? rect;
@@ -35,10 +33,8 @@ class AnnotWithRect {
   }
 }
 
+/// The field object for the viewer.
 class Field {
-  /*  
-      Description: The field object for the viewer
-  */
   String? fieldName;
   dynamic fieldValue;
   Field(this.fieldName, this.fieldValue);
@@ -51,18 +47,16 @@ class Field {
       {'fieldName': fieldName, 'fieldValue': fieldValue};
 }
 
+/// The rect object for the viewer.
 class Rect {
-  /*  
-      Description: The rect object for the viewer
-  */
   double? x1, y1, x2, y2, width, height;
   Rect(this.x1, this.y1, this.x2, this.y2, this.width, this.height);
 
-  Rect.fromCoordinates(this.x1, this.y1, this.x2, this.y2) { 
+  Rect.fromCoordinates(this.x1, this.y1, this.x2, this.y2) {
     if (x1 != null && x2 != null) {
       width = (x2 as double) - (x1 as double);
     }
-    
+
     if (y1 != null && y2 != null) {
       height = (y2 as double) - (y1 as double);
     }
@@ -78,7 +72,7 @@ class Rect {
         getDouble(json['height']));
   }
 
-  // a helper for JSON number decoding
+  /// A helper for JSON number decoding.
   static getDouble(dynamic value) {
     if (value is int) {
       return value.toDouble();
@@ -97,13 +91,12 @@ class Rect {
       };
 }
 
+/// The flag object for an annotation.
 class AnnotFlag {
-  /*  
-      Description: The flag object for an annotation
-      Note: Flag comes from AnnotationFlags constants;
-            FlagValue represents toggling on/off
-  */
+  /// flag comes from [AnnotationFlags] constants.
   String? flag;
+
+  /// flagValue represents toggling on/off.
   bool? flagValue;
   AnnotFlag(this.flag, this.flagValue);
 
@@ -113,16 +106,15 @@ class AnnotFlag {
       };
 }
 
+/// The annotation object associated with its flags.
 class AnnotWithFlag {
-  /*
-      Description: The annotation object associated with its flags
-  */
   late Annot annotation;
   late List<AnnotFlag> flags;
 
   AnnotWithFlag.fromAnnotAndFlags(this.annotation, this.flags);
 
-  AnnotWithFlag(String? annotId, int? pageNumber, String? flag, bool? flagValue) {
+  AnnotWithFlag(
+      String? annotId, int? pageNumber, String? flag, bool? flagValue) {
     annotation = new Annot(annotId, pageNumber);
     flags = new List<AnnotFlag>.empty(growable: true);
     flags.add(new AnnotFlag(flag, flagValue));
@@ -132,18 +124,26 @@ class AnnotWithFlag {
       {'annotation': jsonEncode(annotation), 'flags': jsonEncode(flags)};
 }
 
+/// The annotation property object.
+///
+/// Note: some of this object's properties are markup annotation exclusive, some are not.
 class AnnotProperty {
-  /*
-      Description: The annotation property object
-      Note: some of the properties are markup annotation exclusive, some are not
-  */
-  // not markup exclusive
+  /// Not markup exclusive.
   Rect? rect;
+
+  /// Not markup exclusive.
   String? contents;
+
+  /// Not markup exclusive.
   int? rotation;
-  // markup exclusive
+
+  /// Markup exclusive.
   String? subject;
+
+  /// Markup exclusive.
   String? title;
+
+  /// Markup exclusive.
   Rect? contentRect;
 
   AnnotProperty();
@@ -158,17 +158,16 @@ class AnnotProperty {
       };
 }
 
+/// The custom toolbar object.
 class CustomToolbar {
-  /*
-    Description: The annotation object associated with its flags
-    Note: id should be unique;
-          items should be array of Buttons / Tools constants;
-          icon (optional) should be a ToolbarIcons constant
-  */
-
+  /// id should be unique.
   String? id;
   String? name;
+
+  /// items should be array of [Buttons] / [Tools] constants.
   List<String>? items;
+
+  /// icon (optional) should be a [ToolbarIcons] constant.
   String? icon;
 
   CustomToolbar(this.id, this.name, this.items, [this.icon]);

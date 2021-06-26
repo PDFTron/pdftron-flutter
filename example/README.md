@@ -1,16 +1,26 @@
-# pdftron_flutter_example
+# Pdftron Flutter example
 
-Demonstrates how to use the pdftron_flutter plugin.
+Demonstrates how to use the `pdftron_flutter` plugin.
 
-## Getting Started
+## Prerequisites
+- PDFTron SDK >= 6.9.0
+- Flutter >= 1.12.0
 
-This project is a starting point for a Flutter application.
+## Installation
 
-A few resources to get you started if this is your first Flutter project:
+If you want to use local files, add the following dependency to `example/pubspec.yaml`:
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+  ```yaml
+    permission_handler: ^8.1.1
+  ```
+There will be sections of code that must then be uncommented. These areas have alrady been indicated within `example/lib/main.dart`
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Run
+
+### Android
+1. Check that your Android device is running by running the command `flutter devices`. If none are available, follow the device set up instructions in the [Install](https://flutter.io/docs/get-started/install) guides for your platform.
+2. Run the app with the command `flutter run`.
+
+### iOS
+1. Run `flutter emulators --launch apple_ios_simulator`.
+2. Run the app with the command `flutter run`.

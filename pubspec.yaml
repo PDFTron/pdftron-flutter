@@ -1,11 +1,14 @@
 name: pdftron_flutter
-description: A new flutter plugin project.
-version: 0.0.58
-author:
-homepage:
+description: A convenience wrapper for building Flutter apps with PDFTron mobile SDK.
+version: 1.0.0
+homepage: https://www.pdftron.com
+repository: https://github.com/PDFTron/pdftron-flutter
+issue_tracker: https://github.com/PDFTron/pdftron-flutter/issues
+documentation: https://github.com/PDFTron/pdftron-flutter/blob/master/API.md
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=1.12.0"
 
 dependencies:
   flutter:
@@ -21,36 +24,9 @@ flutter:
   # be modified. They are used by the tooling to maintain consistency when
   # adding or updating assets for this project.
   plugin:
-    androidPackage: com.pdftron.pdftronflutter
-    pluginClass: PdftronFlutterPlugin
-
-  # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
-  #
-  # For details regarding assets in packages, see
-  # https://flutter.io/assets-and-images/#from-packages
-  #
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.io/assets-and-images/#resolution-aware.
-
-  # To add custom fonts to your plugin package, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts in packages, see
-  # https://flutter.io/custom-fonts/#from-packages
+    platforms:
+      android:
+        package: com.pdftron.pdftronflutter
+        pluginClass: PdftronFlutterPlugin
+      ios:
+        pluginClass: PdftronFlutterPlugin

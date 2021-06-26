@@ -1,6 +1,6 @@
 part of pdftron;
 
-// Functions define the names of the functions
+/// Defines the names of the functions.
 class Functions {
   static const getPlatformVersion = "getPlatformVersion";
   static const getVersion = "getVersion";
@@ -31,7 +31,7 @@ class Functions {
   static const deleteAllAnnotations = "deleteAllAnnotations";
 }
 
-// Parameters define the parameters of the functions
+/// Defines the parameters of the functions.
 class Parameters {
   static const licenseKey = "licenseKey";
   static const document = "document";
@@ -54,7 +54,7 @@ class Parameters {
   static const leadingNavButtonIcon = "leadingNavButtonIcon";
 }
 
-// Parameters define the parameters of the events
+/// Defines the parameters of the events.
 class EventParameters {
   static const action = "action";
   static const annotations = "annotations";
@@ -67,7 +67,7 @@ class EventParameters {
   static const pageNumber = "pageNumber";
 }
 
-// Buttons define the various kinds of buttons for the viewer
+/// Defines the various kinds of buttons for the viewer.
 class Buttons {
   static const viewControlsButton = 'viewControlsButton';
   static const freeHandToolButton = 'freeHandToolButton';
@@ -110,11 +110,11 @@ class Buttons {
   static const undo = 'undo';
   static const redo = 'redo';
 
-  // Android only
+  /// Android only.
   static const editAnnotationToolbarButton = 'editAnnotationToolButton';
 }
 
-// Tools define the various kinds of tools for the viewer
+/// Defines the various kinds of tools for the viewer.
 class Tools {
   static const annotationEdit = 'AnnotationEdit';
   static const textSelect = 'TextSelect';
@@ -161,15 +161,17 @@ class Tools {
   static const formCreateComboBoxField = 'FormCreateComboBoxField';
   static const formCreateListBoxField = 'FormCreateListBoxField';
 
-  // iOS only.
+  /// iOS only.
   static const pencilKitDrawing = 'PencilKitDrawing';
 
-  // Android only.
+  /// Android only.
   static const annotationSmartPen = 'AnnotationSmartPen';
+
+  /// Android only.
   static const annotationLasso = 'AnnotationLasso';
 }
 
-// FitModes define all fit modes in the viewer
+/// Defines all fit modes in the viewer.
 class FitModes {
   static const fitPage = 'FitPage';
   static const fitWidth = 'FitWidth';
@@ -177,7 +179,7 @@ class FitModes {
   static const zoom = 'Zoom';
 }
 
-// LayoutModes define all layout modes in the viewer
+/// Defines all layout modes in the viewer.
 class LayoutModes {
   static const single = 'Single';
   static const continuous = 'Continuous';
@@ -187,19 +189,19 @@ class LayoutModes {
   static const facingCoverContinuous = 'FacingCoverContinuous';
 }
 
-// FieldFlags define the property flags for a form field
+/// Defines the property flags for a form field.
 class FieldFlags {
   static const ReadOnly = 0;
   static const Required = 1;
 }
 
-// ThumbnailFilterModes define the filter modes in thumbnail browser
+/// Defines the filter modes in thumbnail browser.
 class ThumbnailFilterModes {
   static const annotated = "annotated";
   static const bookmarked = "bookmarked";
 }
 
-// AnnotationFlags define the flags for any annotation in the document
+/// Defines the flags for any annotation in the document.
 class AnnotationFlags {
   static const hidden = "hidden";
   static const invisible = "invisible";
@@ -213,24 +215,33 @@ class AnnotationFlags {
   static const toggleNoView = "toggleNoView";
 }
 
-// AnnotationProperties define all possible annotation properties
+/// Defines all possible annotation properties.
 class AnnotationProperties {
-  // not markup exclusive
+  /// Not markup exclusive.
   static const rect = "rect";
+
+  /// Not markup exclusive.
   static const contents = "contents";
-  // markup exclusive
-  static const subject = "subject";
-  static const title = "title";
-  static const contentRect = "contentRect";
+
+  /// Not markup exclusive.
   static const rotation = "rotation";
+
+  /// Markup exclusive.
+  static const subject = "subject";
+
+  /// Markup exclusive.
+  static const title = "title";
+
+  /// Markup exclusive.
+  static const contentRect = "contentRect";
 }
 
-// Behaviors define all user behaviors in the viewer
+/// Defines all user behaviors in the viewer.
 class Behaviors {
   static const linkPress = "linkPress";
 }
 
-// LongPressMenuItems define all menu items that could show up on long press of text or empty area
+/// Defines all menu items that could show up on long press of text or empty area.
 class LongPressMenuItems {
   static const copy = "copy";
   static const search = "search";
@@ -238,7 +249,7 @@ class LongPressMenuItems {
   static const read = "read";
 }
 
-// AnnotationMenuItems define all menu items that could show up on press of annotation
+/// Defines all menu items that could show up on press of annotation.
 class AnnotationMenuItems {
   static const style = "style";
   static const note = "note";
@@ -257,7 +268,7 @@ class AnnotationMenuItems {
   static const calibrate = "calibrate";
 }
 
-// DefaultToolbars define a set of pre-designed toolbars for easier customization
+/// Defines a set of pre-designed toolbars for easier customization.
 class DefaultToolbars {
   static const view = "PDFTron_View";
   static const annotate = "PDFTron_Annotate";
@@ -271,7 +282,7 @@ class DefaultToolbars {
   static const favorite = "PDFTron_Favorite";
 }
 
-// ToolbarIcons define default toolbar icons for use for potential custom toolbars
+/// Defines default toolbar icons for use for potential custom toolbars.
 class ToolbarIcons {
   static const view = "PDFTron_View";
   static const annotate = "PDFTron_Annotate";
