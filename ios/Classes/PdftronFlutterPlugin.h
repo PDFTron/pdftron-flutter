@@ -186,6 +186,8 @@ static NSString * const PTSetValuesForFieldsKey = @"setValuesForFields";
 static NSString * const PTSetLeadingNavButtonIconKey = @"setLeadingNavButtonIcon";
 static NSString * const PTCloseAllTabsKey = @"closeAllTabs";
 static NSString * const PTDeleteAllAnnotationsKey = @"deleteAllAnnotations";
+static NSString * const PTExportAsImageKey = @"exportAsImage";
+static NSString * const PTExportAsImageFromFilePathKey = @"exportAsImageFromFilePath";
 
 // argument
 static NSString * const PTDocumentArgumentKey = @"document";
@@ -207,6 +209,9 @@ static NSString * const PTAnnotationArgumentKey = @"annotation";
 static NSString * const PTAnnotationsWithFlagsArgumentKey = @"annotationsWithFlags";
 static NSString * const PTAnnotationPropertiesArgumentKey = @"annotationProperties";
 static NSString * const PTLeadingNavButtonIconArgumentKey = @"leadingNavButtonIcon";
+static NSString * const PTPathArgumentKey = @"path";
+static NSString * const PTDpiArgumentKey = @"dpi";
+static NSString * const PTExportFormatArgumentKey = @"exportFormat";
 
 // event strings
 static NSString * const PTExportAnnotationCommandEventKey = @"export_annotation_command_event";

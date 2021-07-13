@@ -29,6 +29,8 @@ class Functions {
   static const setLeadingNavButtonIcon = "setLeadingNavButtonIcon";
   static const closeAllTabs = "closeAllTabs";
   static const deleteAllAnnotations = "deleteAllAnnotations";
+  static const exportAsImage = "exportAsImage";
+  static const exportAsImageFromFilePath = "exportAsImageFromFilePath";
 }
 
 // Parameters define the parameters of the functions
@@ -52,6 +54,9 @@ class Parameters {
   static const annotationsWithFlags = "annotationsWithFlags";
   static const annotationProperties = "annotationProperties";
   static const leadingNavButtonIcon = "leadingNavButtonIcon";
+  static const path = "path";
+  static const exportFormat = "exportFormat";
+  static const dpi = "dpi";
 }
 
 // Parameters define the parameters of the events
@@ -284,3 +289,9 @@ class ToolbarIcons {
   static const redaction = "PDFTron_Redact";
   static const favorite = "PDFTron_Favorite";
 }
+
+  class ExportFormat {
+    static const BMP = "BMP";
+    static const JPEG =  "JPEG";
+    static const PNG = "PNG";
+  }

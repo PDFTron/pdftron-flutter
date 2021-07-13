@@ -167,4 +167,21 @@ class PdftronFlutter {
   static Future<void> deleteAllAnnotations() {
     return _channel.invokeMethod(Functions.deleteAllAnnotations);
   }
+
+  static Future<String> exportAsImage(int pageNumber, int dpi, String exportFormat) {
+    return _channel.invokeMethod(Functions.exportAsImage, <String, dynamic>{
+      Parameters.pageNumber: pageNumber,
+      Parameters.dpi: dpi,
+      Parameters.exportFormat: exportFormat
+    });
+  }
+
+  static Future<String> exportAsImageFromFilePath(int pageNumber, int dpi, String exportFormat, String filePath) {
+    return _channel.invokeMethod(Functions.exportAsImageFromFilePath, <String, dynamic>{
+      Parameters.pageNumber: pageNumber,
+      Parameters.dpi: dpi,
+      Parameters.exportFormat: exportFormat,
+      Parameters.path: filePath
+    });
+  }
 }

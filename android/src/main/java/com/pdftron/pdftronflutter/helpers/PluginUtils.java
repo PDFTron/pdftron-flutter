@@ -42,6 +42,7 @@ import com.pdftron.pdf.widget.toolbar.builder.AnnotationToolbarBuilder;
 import com.pdftron.pdf.widget.toolbar.builder.ToolbarButtonType;
 import com.pdftron.pdf.widget.toolbar.component.DefaultToolbars;
 import com.pdftron.pdftronflutter.R;
+import com.pdftron.pdf.PDFDraw;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -52,6 +53,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +85,12 @@ public class PluginUtils {
     public static final String KEY_ANNOTATIONS_WITH_FLAGS = "annotationsWithFlags";
     public static final String KEY_ANNOTATION_PROPERTIES = "annotationProperties";
     public static final String KEY_LEADING_NAV_BUTTON_ICON = "leadingNavButtonIcon";
+    public static final String KEY_DPI = "dpi";
+    public static final String KEY_EXPORT_FORMAT = "exportFormat";
+    public static final String KEY_EXPORT_FORMAT_BMP = "BMP";
+    public static final String KEY_EXPORT_FORMAT_JPEG = "JPEG";
+    public static final String KEY_EXPORT_FORMAT_PNG = "PNG";
+
 
     public static final String KEY_CONFIG_DISABLED_ELEMENTS = "disabledElements";
     public static final String KEY_CONFIG_DISABLED_TOOLS = "disabledTools";
@@ -165,6 +173,8 @@ public class PluginUtils {
     public static final String KEY_LONG_PRESS_MENU_ITEM = "longPressMenuItem";
     public static final String KEY_LONG_PRESS_TEXT = "longPressText";
 
+    public static final String KEY_PATH = "path";
+
     public static final String EVENT_EXPORT_ANNOTATION_COMMAND = "export_annotation_command_event";
     public static final String EVENT_EXPORT_BOOKMARK = "export_bookmark_event";
     public static final String EVENT_DOCUMENT_LOADED = "document_loaded_event";
@@ -206,6 +216,8 @@ public class PluginUtils {
     public static final String FUNCTION_CLOSE_ALL_TABS = "closeAllTabs";
     public static final String FUNCTION_DELETE_ALL_ANNOTATIONS = "deleteAllAnnotations";
     public static final String FUNCTION_GET_PAGE_ROTATION = "getPageRotation";
+    public static final String FUNCTION_EXPORT_AS_IMAGE = "exportAsImage";
+    public static final String FUNCTION_EXPORT_AS_IMAGE_FROM_FILE_PATH = "exportAsImageFromFilePath";
 
     public static final String BUTTON_TOOLS = "toolsButton";
     public static final String BUTTON_SEARCH = "searchButton";
@@ -1807,6 +1819,27 @@ public class PluginUtils {
                 }
                 break;
             }
+            case FUNCTION_EXPORT_AS_IMAGE: {
+                checkFunctionPrecondition(component);
+                Integer pageNumber = call.argument(KEY_PAGE_NUMBER);
+                Integer dpi = call.argument(KEY_DPI);
+                String exportFormat = call.argument(KEY_EXPORT_FORMAT);
+                if (pageNumber != null && dpi != null && exportFormat != null) {
+                    exportAsImage(pageNumber, dpi, exportFormat, result, component);
+                }
+                break;
+            }
+            case FUNCTION_EXPORT_AS_IMAGE_FROM_FILE_PATH: {
+                // Static, doesn't require viewer.
+                Integer pageNumber = call.argument(KEY_PAGE_NUMBER);
+                Integer dpi = call.argument(KEY_DPI);
+                String exportFormat = call.argument(KEY_EXPORT_FORMAT);
+                String path = call.argument(KEY_PATH);
+                if (pageNumber != null && dpi != null && exportFormat != null && path != null) {
+                    exportAsImageFromFilePath(pageNumber, dpi, exportFormat, path, result, component);
+                }
+                break;
+            }
             default:
                 Log.e("PDFTronFlutter", "notImplemented: " + call.method);
                 result.notImplemented();
@@ -2523,6 +2556,65 @@ public class PluginUtils {
             }
         }
         result.success(pageRotation);
+    }
+
+    private static void exportAsImage(int pageNumber, int dpi, String exportFormat, MethodChannel.Result result, ViewerComponent component) {
+        PDFViewCtrl pdfViewCtrl = component.getPdfViewCtrl();
+        PDFDoc pdfDoc = component.getPdfDoc();
+        if (pdfViewCtrl == null || pdfDoc == null) {
+            result.error("InvalidState", "PDFViewCtrl not found", null);
+        }
+        try {
+            String imagePath = exportAsImageHelper(pdfDoc, pageNumber, dpi, exportFormat);
+            result.success(imagePath);
+        } catch (Exception e) {
+            result.error(Long.toString(e.hashCode()), "Exception Error: " + e, null);
+        }
+    }
+
+    private static void exportAsImageFromFilePath(int pageNumber, int dpi, String exportFormat, String path, MethodChannel.Result result, ViewerComponent component) {
+        try {
+            PDFDoc pdfDoc = new PDFDoc(path);
+            String imagePath = exportAsImageHelper(pdfDoc, pageNumber, dpi, exportFormat);
+            pdfDoc.close();
+            result.success(imagePath);
+        } catch (Exception e) {
+            result.error(Long.toString(e.hashCode()), "Exception Error: " + e, null);
+        }
+    }
+
+    private static String exportAsImageHelper(PDFDoc doc, int pageNumber, int dpi, String exportFormat) throws PDFNetException {
+        PDFDraw draw = null;
+        boolean shouldUnlockRead = false;
+        try {
+            doc.lockRead();
+            shouldUnlockRead = true;
+
+            draw = new PDFDraw();
+            draw.setDPI(dpi);
+            Page pg = doc.getPage(pageNumber);
+            String ext = "png";
+            if (KEY_EXPORT_FORMAT_BMP.equals(exportFormat)) {
+                ext = "bmp";
+            } else if (KEY_EXPORT_FORMAT_JPEG.equals(exportFormat)) {
+                ext = "jpeg";
+            }
+            File tempFile = File.createTempFile("tmp", "." + ext);
+            draw.export(pg, tempFile.getAbsolutePath(), exportFormat);
+            return tempFile.getAbsolutePath();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (draw != null) {
+                try {
+                    draw.destroy();
+                } catch (Exception ignored) {
+                }
+            }
+            if (shouldUnlockRead) {
+                doc.unlockRead();
+            }
+        }
     }
 
     // Events

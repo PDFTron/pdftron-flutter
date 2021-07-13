@@ -45,6 +45,29 @@ Returns a Future.
 PdftronFlutter.initialize('your_license_key');
 ```
 
+### exportAsImageFromFilePath
+Export a PDF page to an image format defined in [`ExportFormat`](./lib/constants.dart). The page is taken from the PDF at the given filepath.
+
+Parameters:
+
+Name | Type | Description
+--- | --- | ---
+pageNumber | int | the page to be converted
+dpi | double | the output image resolution
+exportFormat | string | one of [`ExportFormat`](./lib/constants.dart) constants
+filePath | string | local file path to pdf
+
+Returns a Promise.
+
+Name | Type | Description
+--- | --- | ---
+resultImagePath | string | the temp path of the created image, user is responsible for clean up the cache
+
+```js
+PdftronFlutter.exportAsImageFromFilePath(1, 92, ExportFormat.BMP, "/sdcard/Download/red.pdf").then((resultImagePath) => {
+  console.log('export', resultImagePath);
+});
+```
 
 ## Viewer Functions
 This section is for viewer related non-static methods. They would be callable in both plugin and widget versions. For example, [`openDocument`](#openDocument) is accessible in 2 ways:
@@ -558,6 +581,30 @@ Returns a Future.
 PdftronFlutter.closeAllTabs();
 ```
 
+### Export Images
+
+#### exportAsImage
+Export a PDF page to an image format defined in [`ExportFormat`](./lib/constants.dart). The page is taken from the currently opened document in the viewer.
+
+Parameters:
+
+Name | Type | Description
+--- | --- | ---
+pageNumber | int | the page to be converted
+dpi | double | the output image resolution
+exportFormat | string | one of [`ExportFormat`](./lib/constants.dart) constants
+
+Returns a Promise.
+
+Name | Type | Description
+--- | --- | ---
+resultImagePath | string | the temp path of the created image, user is responsible for clean up the cache
+
+```js
+PdftronFlutter.exportAsImage(1, 92, ExportFormat.BMP).then((resultImagePath) => {
+  console.log('export', resultImagePath);
+});
+```
 
 ## Events
 This section contains all the event listeners you could attach to the viewer.
