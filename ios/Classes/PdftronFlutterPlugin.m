@@ -529,6 +529,15 @@
                         [documentController setTabTitle:tabTitle];
                     }
                 }
+                else if ([key isEqualToString:PTDisableEditingByAnnotationTypeKey])
+                {
+                    
+                    NSArray* uneditableAnnotTypes = [PdftronFlutterPlugin getConfigValue:configPairs configKey:PTDisableEditingByAnnotationTypeKey class:[NSArray class] error:&error];
+                    
+                    if (!error && uneditableAnnotTypes) {
+                        [documentController setUneditableAnnotTypes:uneditableAnnotTypes];
+                    }
+                }
                 else
                 {
                     NSLog(@"Unknown JSON key in config: %@.", key);

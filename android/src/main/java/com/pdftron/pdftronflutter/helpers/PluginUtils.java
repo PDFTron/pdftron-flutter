@@ -125,6 +125,7 @@ public class PluginUtils {
     public static final String KEY_CONFIG_OVERRIDE_BEHAVIOR = "overrideBehavior";
     public static final String KEY_CONFIG_TAB_TITLE = "tabTitle";
     public static final String KEY_CONFIG_PERMANENT_PAGE_NUMBER_INDICATOR = "pageNumberIndicatorAlwaysVisible";
+    public static final String KEY_CONFIG_DISABLE_EDITING_BY_ANNOTATION_TYPE = "disableEditingByAnnotationType";
 
     public static final String KEY_X1 = "x1";
     public static final String KEY_Y1 = "y1";
@@ -815,6 +816,15 @@ public class PluginUtils {
                 } else {
                     String cacheDir = context.getCacheDir().getAbsolutePath();
                     configInfo.setOpenUrlPath(cacheDir);
+                }
+                if (!configJson.isNull(KEY_CONFIG_DISABLE_EDITING_BY_ANNOTATION_TYPE)) {
+                    JSONArray array = configJson.getJSONArray(KEY_CONFIG_DISABLE_EDITING_BY_ANNOTATION_TYPE);
+                    ArrayList<String> items = convertJSONArrayToArrayList(array);
+                    int[] annotTypes = new int[items.size()];
+                    for (int i = 0; i < items.size(); i++) {
+                        annotTypes[i] = convStringToAnnotType(items.get(i));
+                    }
+                    toolManagerBuilder.disableAnnotEditing(annotTypes);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

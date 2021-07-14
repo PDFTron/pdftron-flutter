@@ -1023,6 +1023,15 @@ Defines whether an annotation is selected after it is created. On iOS, this func
 config.selectAnnotationAfterCreation = true;
 ```
 
+#### disableEditingByAnnotationType
+array of [`Tools`](./lib/constants.dart) constants, defaults to none.
+
+Defines annotation types that cannot be edited after creation.
+
+```dart
+config.disableEditingByAnnotationType = [Tools.annotationCreateTextSquiggly, Tools.annotationCreateTextHighlight, Tools.annotationCreateEllipse];
+```
+
 ### Annotation Menu
 
 #### hideAnnotationMenu

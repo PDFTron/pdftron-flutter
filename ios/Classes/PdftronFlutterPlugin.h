@@ -44,6 +44,7 @@ static NSString * const PTContinuousAnnotationEditingKey = @"continuousAnnotatio
 static NSString * const PTAnnotationPermissionCheckEnabledKey = @"annotationPermissionCheckEnabled";
 static NSString * const PTOverrideBehaviorKey = @"overrideBehavior";
 static NSString * const PTTabTitleKey = @"tabTitle";
+static NSString * const PTDisableEditingByAnnotationTypeKey = @"disableEditingByAnnotationType";
 
 // tool
 static NSString * const PTAnnotationEditToolKey = @"AnnotationEdit";

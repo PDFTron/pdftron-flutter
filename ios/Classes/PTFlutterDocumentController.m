@@ -149,6 +149,25 @@ static BOOL PT_addMethod(Class cls, SEL selector, void (^block)(id))
     }
 }
 
+- (void)setUneditableAnnotTypes:(NSArray<NSString *> *)uneditableAnnotTypes
+{
+    [self setAnnotationEditingPermission:uneditableAnnotTypes toValue:NO];
+}
+
+- (void)setAnnotationEditingPermission:(NSArray *)stringsArray toValue:(BOOL)value
+{
+    PTToolManager *toolManager = self.toolManager;
+
+    for (NSObject *item in stringsArray) {
+        if ([item isKindOfClass:[NSString class]]) {
+            NSString *string = (NSString *)item;
+            PTExtendedAnnotType typeToSetPermission = [self convertAnnotationNameToAnnotType:string];
+
+            [toolManager annotationOptionsForAnnotType:typeToSetPermission].canEdit = value;
+        }
+    }
+}
+
 #pragma mark - <PTBookmarkViewControllerDelegate>
 
 - (void)bookmarkViewController:(PTBookmarkViewController *)bookmarkViewController didAddBookmark:(PTUserBookmark *)bookmark

@@ -62,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable) NSString* tabTitle;
 
+@property (nonatomic, copy, nullable) NSArray<NSString*>* uneditableAnnotTypes;
+
 - (void)initViewerSettings;
 - (void)applyViewerSettings;
 
