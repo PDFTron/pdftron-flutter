@@ -29,6 +29,7 @@ class Functions {
   static const setLeadingNavButtonIcon = "setLeadingNavButtonIcon";
   static const closeAllTabs = "closeAllTabs";
   static const deleteAllAnnotations = "deleteAllAnnotations";
+  static const openAnnotationList = "openAnnotationList";
 }
 
 // Parameters define the parameters of the functions

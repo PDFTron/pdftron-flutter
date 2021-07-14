@@ -1163,6 +1163,8 @@
         [self closeAllTabs:result];
     } else if ([call.method isEqualToString:PTDeleteAllAnnotationsKey]) {
         [self deleteAllAnnotations:result];
+    } else if ([call.method isEqualToString:PTOpenAnnotationListKey]) {
+        [self openAnnotationList:result];
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -2298,6 +2300,20 @@
     // Close the selected tab last.
     if (tabManager.selectedItem) {
         [tabManager removeItem:tabManager.selectedItem];
+    }
+    
+    flutterResult(nil);
+}
+
+- (void)openAnnotationList:(FlutterResult)flutterResult
+{
+    PTDocumentController *documentController = [self getDocumentController];
+    
+    if (!documentController.annotationListHidden) {
+        PTNavigationListsViewController *navigationListsViewController = documentController.navigationListsViewController;
+        navigationListsViewController.selectedViewController = navigationListsViewController.annotationViewController;
+        
+        [documentController presentViewController:navigationListsViewController animated:YES completion:nil];
     }
     
     flutterResult(nil);

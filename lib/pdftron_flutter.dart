@@ -167,4 +167,8 @@ class PdftronFlutter {
   static Future<void> deleteAllAnnotations() {
     return _channel.invokeMethod(Functions.deleteAllAnnotations);
   }
+
+  static Future<void> openAnnotationList() {
+    return _channel.invokeMethod(Functions.openAnnotationList);
+  }
 }

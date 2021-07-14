@@ -133,6 +133,15 @@ path | String | the document path
 var path = await PdftronFlutter.getDocumentPath();
 ```
 
+#### openAnnotationList
+Displays the annotation tab of the existing list container. If this tab has been disabled, the method does nothing.
+
+Returns a Future that resolves when the view has loaded.
+
+```dart
+await PdftronFlutter.openAnnotationList();
+```
+
 ### Viewer UI Configuration
 
 #### setLeadingNavButtonIcon

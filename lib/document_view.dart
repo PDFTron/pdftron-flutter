@@ -176,4 +176,8 @@ class DocumentViewController {
   Future<void> deleteAllAnnotations() {
     return _channel.invokeMethod(Functions.deleteAllAnnotations);
   }
+
+  Future<void> openAnnotationList() {
+    return _channel.invokeMethod(Functions.openAnnotationList);
+  }
 }
