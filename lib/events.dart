@@ -21,6 +21,7 @@ const _leadingNavButtonPressedChannel =
     const EventChannel('leading_nav_button_pressed_event');
 const _pageChangedChannel = const EventChannel('page_changed_event');
 const _zoomChangedChannel = const EventChannel('zoom_changed_event');
+const _pageMovedChannel = const EventChannel('page_moved_event');
 
 typedef void ExportAnnotationCommandListener(dynamic xfdfCommand);
 typedef void ExportBookmarkListener(dynamic bookmarkJson);
@@ -38,6 +39,7 @@ typedef void LeadingNavbuttonPressedlistener();
 typedef void PageChangedListener(
     dynamic previousPageNumber, dynamic pageNumber);
 typedef void ZoomChangedListener(dynamic zoom);
+typedef void PageMovedListener(dynamic previousPageNumber, dynamic pageNumber);
 typedef void CancelListener();
 
 enum eventSinkId {
@@ -54,6 +56,7 @@ enum eventSinkId {
   leadingNavButtonPressedId,
   pageChangedId,
   zoomChangedId,
+  pageMovedId,
 }
 
 CancelListener startExportAnnotationCommandListener(
@@ -242,6 +245,21 @@ CancelListener startZoomChangedListener(ZoomChangedListener listener) {
   var subscription = _zoomChangedChannel
       .receiveBroadcastStream(eventSinkId.zoomChangedId.index)
       .listen(listener, cancelOnError: true);
+
+  return () {
+    subscription.cancel();
+  };
+}
+
+CancelListener startPageMovedListener(PageMovedListener listener) {
+  var subscription = _pageMovedChannel
+    .receiveBroadcastStream(eventSinkId.pageMovedId.index)
+    .listen((pagesString) {
+      dynamic pagesObject = jsonDecode(pagesString);
+      dynamic previousPageNumber = pagesObject[EventParameters.previousPageNumber];
+      dynamic pageNumber = pagesObject[EventParameters.pageNumber];
+      listener(previousPageNumber, pageNumber);
+  }, cancelOnError: true);
 
   return () {
     subscription.cancel();

@@ -334,6 +334,16 @@ static BOOL PT_addMethod(Class cls, SEL selector, void (^block)(id))
     return showMenu;
 }
 
+- (void)toolManager:(nonnull PTToolManager *)toolManager pageMovedFromPageNumber:(int)oldPageNumber toPageNumber:(int)newPageNumber
+{
+    NSDictionary *resultDict = @{
+        PTPreviousPageNumberKey: [NSNumber numberWithInt:oldPageNumber],
+        PTPageNumberKey: [NSNumber numberWithInt:newPageNumber],
+    };
+
+    [self.plugin documentController:self pageMoved:[PdftronFlutterPlugin PT_idToJSONString:resultDict]];
+}
+
 - (BOOL)filterMenuItemsForAnnotationSelectionMenu:(UIMenuController *)menuController forAnnotation:(PTAnnot *)annot
 {
     __block PTExtendedAnnotType annotType = PTExtendedAnnotTypeUnknown;

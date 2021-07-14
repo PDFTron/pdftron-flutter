@@ -207,8 +207,19 @@ public class ViewerImpl {
         }
 
         @Override
-        public void onPageMoved(int i, int i1) {
+        public void onPageMoved(int from, int to) {
+            EventChannel.EventSink eventSink = mViewerComponent.getPageMovedEventEmitter();
+            if (eventSink != null) {
+                JSONObject resultObject = new JSONObject();
+                try {
+                    resultObject.put(KEY_PREVIOUS_PAGE_NUMBER, from);
+                    resultObject.put(KEY_PAGE_NUMBER, to);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                eventSink.success(resultObject.toString());
+            }
         }
 
         @Override

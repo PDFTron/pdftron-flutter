@@ -604,7 +604,7 @@ var navPressedCancel = startLeadingNavButtonPressedListener(()
 ### Page
 
 #### startPageChangedListener
-Event is raised when page changes.
+Event is raised when the current page changes.
 
 Event Parameters:
 
@@ -617,6 +617,22 @@ pageNumber | int | the current page number
 var pageChangedCancel = startPageChangedListener((previousPageNumber, pageNumber)
 {
   print("flutter page changed. from $previousPageNumber to $pageNumber");
+});
+```
+
+#### startPageMovedListener
+Event is raised when a page has been moved in the document. 
+
+Event Parameters:
+
+Name | Type | Description
+--- | --- | ---
+previousPageNumber | int | the previous page number
+pageNumber | int | the current page number
+
+```dart
+var pageMovedCancel = startPageMovedListener((previousPageNumber, pageNumber) {
+  print("flutter page moved from $previousPageNumber to $pageNumber");
 });
 ```
 

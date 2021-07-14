@@ -71,6 +71,8 @@ public interface ViewerComponent {
 
     EventChannel.EventSink getZoomChangedEventEmitter();
 
+    EventChannel.EventSink getPageMovedEventEmitter();
+
     MethodChannel.Result getFlutterLoadResult();
 
     HashMap<Annot, Integer> getSelectedAnnots();

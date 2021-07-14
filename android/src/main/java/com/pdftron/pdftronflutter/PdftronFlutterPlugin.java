@@ -26,7 +26,9 @@ import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_FORM_FIELD_VA
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_LEADING_NAV_BUTTON_PRESSED;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_LONG_PRESS_MENU_PRESSED;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_PAGE_CHANGED;
+import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_PAGE_MOVED;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_ZOOM_CHANGED;
+
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.FUNCTION_GET_PLATFORM_VERSION;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.FUNCTION_GET_VERSION;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.FUNCTION_INITIALIZE;
@@ -222,6 +224,19 @@ public class PdftronFlutterPlugin implements MethodCallHandler {
             @Override
             public void onCancel(Object arguments) {
                 FlutterDocumentActivity.setZoomChangedEventEmitter(null);
+            }
+        });
+
+        final EventChannel pageMovedEventChanel = new EventChannel(registrar.messenger(), EVENT_PAGE_MOVED);
+        pageMovedEventChanel.setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink emitter) {
+                FlutterDocumentActivity.setPageMovedEventEmitter(emitter);
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+                FlutterDocumentActivity.setPageMovedEventEmitter(null);
             }
         });
 

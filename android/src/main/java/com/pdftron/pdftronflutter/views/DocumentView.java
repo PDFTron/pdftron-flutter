@@ -75,6 +75,7 @@ public class DocumentView extends com.pdftron.pdf.controls.DocumentView2 impleme
     private EventChannel.EventSink sLeadingNavButtonPressedEventEmitter;
     private EventChannel.EventSink sPageChangedEventEmitter;
     private EventChannel.EventSink sZoomChangedEventEmitter;
+    private EventChannel.EventSink sPageMovedEventEmitter;
 
     private MethodChannel.Result sFlutterLoadResult;
 
@@ -354,6 +355,10 @@ public class DocumentView extends com.pdftron.pdf.controls.DocumentView2 impleme
         sZoomChangedEventEmitter = emitter;
     }
 
+    public void setPageMovedEventEmitter(EventChannel.EventSink emitter) {
+        sPageMovedEventEmitter = emitter;
+    }
+
     public void setFlutterLoadResult(MethodChannel.Result result) {
         sFlutterLoadResult = result;
     }
@@ -425,6 +430,9 @@ public class DocumentView extends com.pdftron.pdf.controls.DocumentView2 impleme
     public EventChannel.EventSink getZoomChangedEventEmitter() {
         return sZoomChangedEventEmitter;
     }
+
+    @Override
+    public EventChannel.EventSink getPageMovedEventEmitter() { return sPageMovedEventEmitter; }
 
     @Override
     public MethodChannel.Result getFlutterLoadResult() {

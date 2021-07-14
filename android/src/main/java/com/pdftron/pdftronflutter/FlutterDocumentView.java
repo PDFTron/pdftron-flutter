@@ -28,6 +28,7 @@ import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_LEADING_NAV_B
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_LONG_PRESS_MENU_PRESSED;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_PAGE_CHANGED;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_ZOOM_CHANGED;
+import static com.pdftron.pdftronflutter.helpers.PluginUtils.EVENT_PAGE_MOVED;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.FUNCTION_OPEN_DOCUMENT;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.FUNCTION_SET_LEADING_NAV_BUTTON_ICON;
 import static com.pdftron.pdftronflutter.helpers.PluginUtils.KEY_LEADING_NAV_BUTTON_ICON;
@@ -222,6 +223,19 @@ public class FlutterDocumentView implements PlatformView, MethodChannel.MethodCa
             @Override
             public void onCancel(Object arguments) {
                 documentView.setZoomChangedEventEmitter(null);
+            }
+        });
+
+        final EventChannel pageMovedEventChannel = new EventChannel(messenger, EVENT_PAGE_MOVED);
+        pageMovedEventChannel.setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink emitter) {
+                documentView.setPageMovedEventEmitter(emitter);
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+                documentView.setPageMovedEventEmitter(null);
             }
         });
     }
