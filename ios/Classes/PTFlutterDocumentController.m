@@ -1054,7 +1054,6 @@ static BOOL PT_addMethod(Class cls, SEL selector, void (^block)(id))
             self.toolManager.annotationManager.annotationEditMode = PTAnnotationModeEditAll;
         }
         
-        self.toolManager.annotationAuthor = self.userId;
         self.toolManager.annotationManager.annotationAuthorIdentifier = self.userId;
         self.toolManager.annotationPermissionCheckEnabled = YES;
         self.toolManager.annotationAuthorCheckEnabled = YES;
@@ -1812,14 +1811,15 @@ static BOOL PT_addMethod(Class cls, SEL selector, void (^block)(id))
     return !self.toolManager.tool.backToPanToolAfterUse;
 }
 
-- (NSString *)annotationAuthor
-{
-    return self.toolManager.annotationAuthor;
-}
-
 - (void)setAnnotationAuthor:(NSString *)annotationAuthor
 {
-    self.toolManager.annotationAuthor = annotationAuthor;
+    _annotationAuthor = annotationAuthor;
+    if (_annotationAuthor && self.userId) {
+        [self.toolManager.annotationManager setAuthorName:annotationAuthor
+                                             forIdentifier:self.userId
+                                                completion:nil];
+        self.navigationListsViewController.annotationViewController.configuration.displayAnnotationAuthors = YES;
+    }
 }
 
 - (void)setAnnotationPermissionCheckEnabled:(BOOL)annotationPermissionCheckEnabled
@@ -1846,10 +1846,19 @@ static BOOL PT_addMethod(Class cls, SEL selector, void (^block)(id))
 {
     _annotationManagerEnabled = annotationManagerEnabled;
 }
+- (NSString *)userId {
+    return self.toolManager.annotationAuthor;
+}
 
 - (void)setUserId:(NSString *)userId
 {
-    _userId = [userId copy];
+    self.toolManager.annotationAuthor = userId;
+    if (self.annotationAuthor && userId) {
+        [self.toolManager.annotationManager setAuthorName:self.annotationAuthor
+                                             forIdentifier:userId
+                                                completion:nil];
+        self.navigationListsViewController.annotationViewController.configuration.displayAnnotationAuthors = YES;
+    }
 }
 
 - (void)setUserName:(NSString *)userName

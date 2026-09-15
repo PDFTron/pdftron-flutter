@@ -1,6 +1,6 @@
 name: pdftron_flutter
 description: A convenience wrapper to build Flutter apps that use the PDFTron mobile SDK for smooth, flexible, and stand-alone document viewing.
-version: 1.0.1-59
+version: 1.0.1-60
 homepage: https://www.apryse.com
 repository: https://github.com/ApryseSDK/pdftron-flutter
 issue_tracker: https://github.com/ApryseSDK/pdftron-flutter/issues
